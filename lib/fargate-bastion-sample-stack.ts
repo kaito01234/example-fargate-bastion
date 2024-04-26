@@ -17,7 +17,7 @@ export class FargateBastionSampleStack extends cdk.Stack {
 
     // 既存のVPCを取得
     const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
-      vpcId: 'vpc-',
+      vpcId: 'vpc-xxxxxxxxxxxxxxxxx',
     });
 
     // Bastion

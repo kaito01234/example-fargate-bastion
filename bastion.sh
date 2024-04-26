@@ -4,15 +4,15 @@ portfoward=$1
 
 # 環境情報設定
 export AWS_DEFAULT_REGION=ap-northeast-1
-SUBNET_NAME=SelfHostedRunnerStack/VPC/private-subnetSubnet1
-SG_NAME=Bastion-EcsSecurityGroup
+SUBNET_NAME="SelfHostedRunnerStack/VPC/private-subnetSubnet1"
+SG_NAME=BastionSecurityGroup
 CLUSTER_NAME=Bastion
 TASK_DEFINITION=Bastion
 RDS_SECRETS_NAME=rds-secrets
 
 # ネットワーク情報設定
 SUBNET_ID=$(aws ec2 describe-subnets --filter Name=tag-key,Values=Name Name=tag-value,Values=$SUBNET_NAME | jq -r '.Subnets[0].SubnetId')
-SG_ID=$(aws ec2 describe-security-groups --filter Name=tag-key,Values=Name Name=tag-value,Values=$SG_NAME | jq -r '.SecurityGroups[0].GroupId')
+SG_ID=$(aws ec2 describe-security-groups --filter Name=group-name,Values=$SG_NAME | jq -r '.SecurityGroups[0].GroupId')
 NETWORK_CONFIG=awsvpcConfiguration={subnets=[$SUBNET_ID],securityGroups=[$SG_ID],assignPublicIp=DISABLED}
 
 # 踏み台コンテナを起動
